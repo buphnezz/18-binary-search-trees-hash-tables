@@ -55,7 +55,6 @@ describe('binary-search-tree.test.js', () => {
     bst3.insert(new Node(7));
     bst3.insert(new Node(2));
     bst3.insert(new Node(4));
-    bst3.insert(new Node(6));
     bst3.insert(new Node(5));
     bst3.insert(new Node(7));
     
@@ -85,18 +84,20 @@ describe('binary-search-tree.test.js', () => {
       expect(bst3.root.left.left.left.value).toEqual(1);
       expect(bst3.root.left.left.left.left).toBeNull();
     });
+    test('#remove, if right-target node has two children, right-target node should equal its right child. ', () => {
+      bst3.remove(15);
+      expect(bst3.root.right.value).toEqual(11);
+      expect(bst3.root.right.right.right).toBeNull();
+    });
     test('#remove, if left-target node has two children, left-target node should equal its right child. ', () => {
       bst3.remove(6);
-      console.log('bst3', bst3.root.left);
       expect(bst3.root.left.value).toEqual(7);
       expect(bst3.root.left.right.right.right).toBeNull();
+      bst3.insert(6);
     });
-    // test('#remove, should return null if the value is not in the bst.', () => {
-    //   expect(bst3.remove(30)).toBeNull();
-    // });
-    // test('#remove, should return null if tree is empty.', () => {
-    //   const emptyBst3 = new BinarySearchTree();
-    //   expect(emptyBst3.remove()).toBeUndefined();
-    // });
+    test('#remove, should return null if tree is empty.', () => {
+      const emptyBst3 = new BinarySearchTree();
+      expect(emptyBst3.remove()).toBeUndefined();
+    });
   });
 });
