@@ -1,5 +1,21 @@
 'use strict';
 
+const doubleChildRightTraversal = (rootNode) => {
+  if (!rootNode.left) {
+    const smallestValue = rootNode.value;
+    return smallestValue;
+  }
+  return doubleChildRightTraversal(rootNode.left);
+};
+
+const doubleChildLeftTraversal = (rootNode) => {
+  if (!rootNode.right) {
+    const largestValue = rootNode.value;
+    return largestValue;
+  }
+  return doubleChildLeftTraversal(rootNode.right);
+};
+
 class BinarySearchTree {
   constructor(root = null) {
     this.root = root;
@@ -31,21 +47,69 @@ class BinarySearchTree {
     }
   }
 
-  // remove(nodeToRemove) {
-    
-  // }
+  remove(value) {
+    if (!value) {
+      return undefined;
+    }
+    const nodeToRemove = this.find(value);
+    return this._remove(this.root, nodeToRemove);
+  }
+  
+  _remove(rootNode, nodeToRemove) {
+    if (!rootNode) {
+      return null;
+    }
+    // -------------------------------LEFT NODE-----------------------------------------------------
+    if (rootNode.left === nodeToRemove) { // LEFT NODE
+      if (!rootNode.left.left && !rootNode.left.right) { // left leaf
+        rootNode.left = null;
+        return this;
+      } else if (!rootNode.left.left) { // left node has right child only
+        const rightTemp = rootNode.right.right;
+        rootNode.right.right = null;
+        rootNode.right = rightTemp;
+      } else if (!rootNode.left.right) { // left node has left child only
+        const leftTemp = rootNode.left.left;
+        rootNode.left.left = null;
+        rootNode.left = leftTemp;
+      } else {
+        rootNode.left.value = doubleChildLeftTraversal(rootNode.left);
+        nodeToRemove = { value: rootNode.left.value, left: null, right: null }; //eslint-disable-line
+        return this._remove(rootNode.left.right, nodeToRemove);
+      }
 
-  // _remove() {
-
-  // }
-
+      // ---------------------------------RIGHT NODE------------------------------------------------
+    } else if (rootNode.right === nodeToRemove) { // RIGHT NODE
+      if (!rootNode.right.left && !rootNode.right.right) { // right leaf removal
+        rootNode.right = null;
+        return this;
+      } else if (!rootNode.right.left) { // right node has right child only
+        rootNode.right = rootNode.right.right;
+        return this;
+      } else if (!rootNode.right.right) { // right node has left child only
+        const leftTemp = rootNode.right.left;
+        rootNode.right.left = null;
+        rootNode.right = leftTemp;
+      } else {
+        rootNode.right.value = doubleChildRightTraversal(rootNode.right);
+        nodeToRemove = { value: rootNode.right.value, left: null, right: null }; //eslint-disable-line
+        return this._remove(rootNode.right.left, nodeToRemove);
+      }
+      // -------------------------RECURSIVE ACTIONS ----------------------------------------------
+    } else if (rootNode.value < nodeToRemove.value) {
+      return this._remove(rootNode.right, nodeToRemove);
+    }
+    return this._remove(rootNode.left, nodeToRemove);
+  }
+  
+  
   find(value) { // Time: O(H) -> O(lg n), Space: O(H) -> O(lg n)
     if (!this.root) {
       return null;
     }
     return this._find(this.root, value);
   }
-
+  
   _find(rootNode, value) {
     if (!rootNode) {
       return null;
@@ -57,5 +121,6 @@ class BinarySearchTree {
     return this._find(rootNode.left, value);
   }
 }
+
 
 export default BinarySearchTree;
