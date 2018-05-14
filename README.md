@@ -38,6 +38,3 @@ toArray() method should have the following BigO:
 find() method should have the following BigO: 
  BigO Time: O(H) where H is the height of the tree
  BigO Space: O(1) 
-
-## DO NOT FORGET
-Ensure your .env module is ignored within your .gitnore for your safety! 
