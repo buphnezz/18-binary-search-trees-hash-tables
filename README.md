@@ -2,7 +2,7 @@
 Daniel Shelton and Zachary Schumpert
 
 ## Overview
-This application demonstrates the process of traversing through a BinarySearchTree and KAry Tree.  The appliation also provides examples of how the inserting, removing and finding of values and nodes within each tree are handled. 
+This application demonstrates the process of traversing through a BinarySearchTree and KAry Tree.  The application also provides examples of how the inserting, removing and finding of values and nodes within each tree are handled. 
 
 ## Getting Started
 
